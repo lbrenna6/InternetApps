@@ -1,0 +1,44 @@
+<html>
+    <head>
+        <!--link rel="stylesheet" href="index.css"-->
+        <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    </head>
+    <body>
+        <h1>5 Day Weather Forecast</h1>
+        <div id="app">
+            <!--when submit is called i.e. button pressed, it will call the fetchWeather function-->
+            <form @submit.prevent="fetchWeather">
+                <label for = "userInput">Enter city name: </label>
+                <input id = "userInput" v-model="userInput"/>
+                <button type = "submit">Submit</button>
+            </form>
+
+            <!-- display this data only if responseData is true i.e. not null i.e. the request succeeded-->
+            <div v-if="responseData">
+                <!---- <div>DATA FETCHED!</div> -->
+                <p>Expected to rain in the next 5 days: {{responseData.doesRainIn5days ? "yes" : "no"}}</p>
+                <p>Pack for {{responseData.packFor}} Weather </p>
+
+                <!-- display the array response in html tables-->
+                <table style="width: 75%">
+                    <tr>
+                        <td><strong>Day</strong></td>
+                        <td><strong>Temperature</strong></td>
+                        <td><strong>Weather</strong></td>
+                        <td><strong>Windspeed</strong></td>
+                    </tr>
+                    <tr v-for="(forecast, index) in responseData.weatherList">
+                        <td>{{index+1}}</td>                                    <!--v-for, can take two arguements. Index gives you the index of the element that you're accessing - starts at 0 so do +1 so the first day is 1 not 0-->
+                        <td>{{forecast.temp}}</td>
+                        <td>{{forecast.weather}}</td>
+                        <td>{{forecast.windSpeed}}</td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+        
+        <script src="main.js"></script>
+        <!-- Axios script tag -->
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.21.0/axios.min.js" integrity="sha512-DZqqY3PiOvTP9HkjIWgjO6ouCbq+dxqWoJZ/Q+zPYNHmlnI2dQnbJ5bxAHpAMw+LXRm4D72EIRXzvcHQtE8/VQ==" crossorigin="anonymous"></script>
+    </body>
+</html>
